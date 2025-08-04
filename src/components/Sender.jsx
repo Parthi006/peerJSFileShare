@@ -15,10 +15,15 @@ export default function Sender() {
 
     peer.on("connection", (c) => {
       console.log({ c });
+      c.on("open", () => {
+        console.log("🔓 DataConnection is open");
 
-      setConn(c);
+        setConn(c); // Now it's safe to store and use // Or send something to confirm readiness
+      });
+
       c.on("data", (data) => {
         if (data === "receiver_ready") {
+          console.log("Receiver Ready!");
           setReceiverReady(true);
         }
       });
