@@ -13,17 +13,19 @@ export default function Sender() {
     const peer = createPeer(newRoomId);
     peerRef.current = peer;
 
-    peer.on("open", (id) => {
-      setPeerId(id);
-    });
-
     peer.on("connection", (c) => {
-        console.log({c});
-        
+      console.log({ c });
+
       setConn(c);
       c.on("data", (data) => {
-        if (data === "receiver_ready") setReceiverReady(true);
+        if (data === "receiver_ready") {
+          setReceiverReady(true);
+        }
       });
+    });
+
+    peer.on("open", (id) => {
+      setPeerId(id);
     });
 
     return () => {
@@ -38,19 +40,19 @@ export default function Sender() {
 
     // const encoder = new TextEncoder();
     // const metaBuffer = encoder.encode(
-    //   "_meta_" + 
+    //   "_meta_" +
     // );
     // const metaComplete = encoder.encode("_complete_");
     conn.send(JSON.stringify({ name: file.name, size: file.size }));
 
-      const stream = file.stream();
+    const stream = file.stream();
     const reader = stream.getReader();
 
-        const pump = async () => {
+    const pump = async () => {
       while (true) {
         const { done, value } = await reader.read();
         if (done) {
-          conn.send('_complete_');
+          conn.send("_complete_");
           break;
         }
 
