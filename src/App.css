@@ -40,3 +40,12 @@
 .read-the-docs {
   color: #888;
 }
+
+/* index.css or App.css */
+.neon-text {
+  text-shadow: 0 0 10px #0ff, 0 0 20px #0ff, 0 0 40px #0ff;
+}
+
+.neon-sub {
+  text-shadow: 0 0 5px #0f0, 0 0 10px #0f0;
+}
