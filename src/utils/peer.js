@@ -7,7 +7,7 @@ export function createPeer(id) {
     secure: true,
     config: {
       iceServers: [
-        { urls: ["stun:bn-turn1.xirsys.com"] },
+        { urls: "stun:stun.l.google.com:19302" },
         {
           username:
             "CVx15pqsYzn-2znQE9nRIiWFmovI-uxDi4gFeuQIWMmrg3FT6ao9FiAsOZYsd-B4AAAAAGiRuipwYXJ0aGliYW4=",
