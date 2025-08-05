@@ -25,12 +25,10 @@ export default function Receiver() {
     });
 
     c.on("data", (data) => {
-
-
       //   const decoder = new TextDecoder("utf-8");
       //   const text = decoder.decode(data);
       if (typeof data === "string") {
-            console.log( 'dattatatata',{ data });
+        console.log("dattatatata", { data });
         if (data === "_complete_") {
           const blob = new Blob(fileRef.current);
           const url = URL.createObjectURL(blob);
@@ -44,14 +42,14 @@ export default function Receiver() {
           fileRef.current = [];
         }
       } else {
-        console.log( 'tatatata',{ data });
+        console.log("tatatata", { data });
         fileRef.current.push(data);
         setProgress(
           (fileRef.current.reduce((acc, buffer) => acc + buffer.byteLength, 0) /
             fileMeta.current.size) *
             100
         );
-      } 
+      }
     });
   };
 
@@ -63,7 +61,7 @@ export default function Receiver() {
         onChange={(e) => setInputId(e.target.value)}
         placeholder="Enter Sender Room ID"
       />
-      {progress !=="0" && <progress value={progress} max='100'></progress>}
+      {progress !== "0" && <progress value={progress} max="100"></progress>}
       <button onClick={connectToSender}>Receive & Download</button>
     </div>
   );
