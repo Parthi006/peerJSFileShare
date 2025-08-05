@@ -8,10 +8,10 @@ export default function Sender() {
   const fileInput = useRef();
   const peerRef = useRef(null);
   useEffect(() => {
-    if (peerRef.current) return;
+    // if (peerRef.current) return;
     const newRoomId = Math.random().toString(36).substring(2, 8);
     const peer = createPeer(newRoomId);
-    peerRef.current = peer;
+    // peerRef.current = peer;
 
     peer.on("connection", (c) => {
       console.log({ c });
@@ -33,12 +33,12 @@ export default function Sender() {
       setPeerId(id);
     });
 
-    return () => {
-      setTimeout(() => {
-        peer.destroy();
-        peerRef.current = null;
-      }, 5000);
-    };
+    // return () => {
+    //   setTimeout(() => {
+    //     peer.destroy();
+    //     peerRef.current = null;
+    //   }, 5000);
+    // };
   }, []);
 
   const sendFile = () => {
