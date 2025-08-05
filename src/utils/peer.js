@@ -8,11 +8,7 @@ export function createPeer(id) {
     config: {
     iceServers: [
       { urls: "stun:stun.l.google.com:19302" }, // Google's STUN
-      {
-        urls: "turn:your.turn.server:3478",
-        username: "user",
-        credential: "pass"
-      }
+      { url: "relay1.expressturn.com:3480", username: "000000002069734054", credential: 'cBRqCyW/nnXXTUu8vpRXGC16XT4=' }
     ]
   }
   });
