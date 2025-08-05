@@ -14,6 +14,7 @@ export function createPeer(id) {
           username: "webrtc",
         },
       ],
+    iceTransportPolicy: "all", // allows relay fallback
     },
   });
 }

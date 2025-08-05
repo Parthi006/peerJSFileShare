@@ -17,7 +17,7 @@ export default function Receiver() {
   }, []);
 
   const connectToSender = () => {
-    const c = peer.current.connect(inputId);
+    const c = peer.current.connect(inputId, { reliable: true });
     conn.current = c;
 
     c.on("open", () => {

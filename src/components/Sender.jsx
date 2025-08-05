@@ -34,8 +34,10 @@ export default function Sender() {
     });
 
     return () => {
-      peer.destroy();
-      peerRef.current = null;
+      setTimeout(() => {
+        peer.destroy();
+        peerRef.current = null;
+      }, 5000);
     };
   }, []);
 
