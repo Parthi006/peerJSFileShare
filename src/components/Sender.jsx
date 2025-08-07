@@ -1,17 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import { createPeer } from "../utils/peer";
+import { isMobile } from "react-device-detect";
 
 export default function Sender() {
   const [peerId, setPeerId] = useState("");
   const [conn, setConn] = useState(null);
   const [receiverReady, setReceiverReady] = useState(false);
   const fileInput = useRef();
-  const peerRef = useRef(null);
   useEffect(() => {
-    // if (peerRef.current) return;
     const newRoomId = Math.random().toString(36).substring(2, 8);
     const peer = createPeer(newRoomId);
-    // peerRef.current = peer;
 
     peer.on("connection", (c) => {
       console.log({ c });
@@ -33,23 +31,11 @@ export default function Sender() {
       setPeerId(id);
     });
 
-    // return () => {
-    //   setTimeout(() => {
-    //     peer.destroy();
-    //     peerRef.current = null;
-    //   }, 5000);
-    // };
   }, []);
 
   const sendFile = () => {
     const file = fileInput.current.files[0];
     if (!file || !conn) return;
-
-    // const encoder = new TextEncoder();
-    // const metaBuffer = encoder.encode(
-    //   "_meta_" +
-    // );
-    // const metaComplete = encoder.encode("_complete_");
     conn.send(JSON.stringify({ name: file.name, size: file.size }));
 
     const stream = file.stream();
@@ -71,27 +57,6 @@ export default function Sender() {
       }
     };
     pump();
-
-    // const chunkSize = 128 * 1024;
-    // let offset = 0;
-    // const reader = new FileReader();
-
-    // reader.onload = (e) => {
-    //   conn.send(e.target.result);
-    //   offset += chunkSize;
-    //   if (offset < file.size) {
-    //     readSlice(offset);
-    //   } else {
-    //     conn.send(metaComplete);
-    //   }
-    // };
-
-    // const readSlice = (o) => {
-    //   const slice = file.slice(o, o + chunkSize);
-    //   reader.readAsArrayBuffer(slice);
-    // };
-
-    // readSlice(0);
   };
 
   return (

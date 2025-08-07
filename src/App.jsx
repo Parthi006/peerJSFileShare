@@ -4,6 +4,7 @@ import Receiver from "./components/Receiver";
 import Loader from "./components/Loader";
 import { motion } from "framer-motion";
 import clsx from "clsx";
+import { isMobile } from "react-device-detect";
 
 function NeonButton({ label, onClick, color = "blue" }) {
   const colors = {
@@ -32,7 +33,6 @@ function NeonButton({ label, onClick, color = "blue" }) {
         "relative border px-6 cursor-pointer py-3 text-lg font-semibold rounded-md uppercase transition-all duration-300 bg-transparent",
         c.text,
         c.border,
-        // c.shadow,
         c.hoverBg,
         c.hoverShadow
       )}
@@ -51,6 +51,32 @@ function NeonButton({ label, onClick, color = "blue" }) {
 
 export default function App() {
   const [role, setRole] = useState("");
+  const [peerType, setPeerType] = useState("");
+  const [isHotspotConfirmed, setIsHotspotConfirmed] = useState(false);
+
+  const isPC = !isMobile;
+
+  const showHotspotPrompt = (Type) => {
+    if (isPC && (Type === "mobile")) return true;
+    if (isMobile && (Type === "pc")) return true;
+    return false;
+  };
+
+  const startConnection = (Type) => {
+    
+    if (showHotspotPrompt(Type)) {
+      console.log('loooogg');
+      
+      const confirmHotspot = window.confirm(
+        isPC
+          ? "Please connect your PC to the mobile hotspot before proceeding."
+          : "Please turn on your mobile hotspot. Make sure the PC connects to it."
+      );
+      setIsHotspotConfirmed(confirmHotspot);
+    } else {
+      setIsHotspotConfirmed(true);
+    }
+  };
 
   return (
     <div className="relative w-full h-screen overflow-hidden">
@@ -85,8 +111,34 @@ export default function App() {
         </motion.div>
       )}
 
-      {role === "sender" && <Sender />}
-      {role === "receiver" && <Receiver />}
+      {role && !peerType && (
+        <div className="absolute inset-0 bg-opacity-80 z-20 flex flex-col items-center justify-center space-y-4 text-white">
+          <p className="text-xl font-semibold">
+            What kind of device are you connecting to?
+          </p>
+          <div className="flex space-x-4">
+            <NeonButton
+              label="📱 Mobile"
+              onClick={() => {
+                setPeerType("mobile");
+                startConnection("mobile");
+              }}
+              color="green"
+            />
+            <NeonButton
+              label="🖥️ PC"
+              onClick={() => {
+                setPeerType("pc");
+                startConnection("pc");
+              }}
+              color="blue"
+            />
+          </div>
+        </div>
+      )}
+
+      {isHotspotConfirmed && role === "sender" && <Sender />}
+      {isHotspotConfirmed && role === "receiver" && <Receiver />}
     </div>
   );
 }

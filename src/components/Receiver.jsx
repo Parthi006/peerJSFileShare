@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { createPeer } from "../utils/peer";
+import { isMobile } from "react-device-detect";
 
 export default function Receiver() {
   const [inputId, setInputId] = useState("");
@@ -25,8 +26,6 @@ export default function Receiver() {
     });
 
     c.on("data", (data) => {
-      //   const decoder = new TextDecoder("utf-8");
-      //   const text = decoder.decode(data);
       if (typeof data === "string") {
         console.log("dattatatata", { data });
         if (data === "_complete_") {
